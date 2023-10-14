@@ -12,10 +12,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GenericResponse {
-
 	@JsonProperty("status")
-	private int status;
-	
+	private int status;	
 	@JsonProperty("message")
 	private String message;
 }
