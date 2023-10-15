@@ -28,10 +28,9 @@ public class UsuariosServiceImpl implements UsuarioService {
 	@Autowired
 	private PermisosRepository permisosRepository;
 	
-	@SuppressWarnings("null")
 	@Override
 	public GenericResponse saveUsuario(Usuarios usuario) {			
-		GenericResponse genericResponse = null;		
+		GenericResponse genericResponse = new GenericResponse();		
 		try {
 			usuariosRepository.save(usuario);
 			genericResponse.setStatus(200);
@@ -42,10 +41,9 @@ public class UsuariosServiceImpl implements UsuarioService {
 		return genericResponse;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public FetchUsersResponse fetchUsuariosList() {				
-		FetchUsersResponse fetchUsersResponse = null;		
+		FetchUsersResponse fetchUsersResponse = new FetchUsersResponse();	
 		List<Usuarios> usuariosLista = new ArrayList<Usuarios>(); 
 		List<UsuarioDto> usuariosDtoLista = new ArrayList<UsuarioDto>();		 
 		try {			
@@ -82,10 +80,9 @@ public class UsuariosServiceImpl implements UsuarioService {
 	    return fetchUsersResponse;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public GenericResponse updateUsuarios(UsuarioToUpdateDto usuarioToUpdateDto, String email) {		
-		GenericResponse genericResponse = null;		
+		GenericResponse genericResponse = new GenericResponse();	
 		try {
 			usuariosRepository.updateByEmail(usuarioToUpdateDto.getNombre(), usuarioToUpdateDto.getEmail(), usuarioToUpdateDto.getContraseña(), email);		
 			accesosRepository.updateTimestamp(usuarioToUpdateDto.getTimestamp(), usuariosRepository.findByEmail(usuarioToUpdateDto.getEmail()).getAccesos().get(0).getIdUsuario());
@@ -98,10 +95,9 @@ public class UsuariosServiceImpl implements UsuarioService {
 	    return genericResponse;
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public GenericResponse deleteUsuariosById(Long accesosIdUsuario) {
-		GenericResponse genericResponse = null;
+		GenericResponse genericResponse = new GenericResponse();
 		try {
 			usuariosRepository.deleteById(accesosIdUsuario);
 			genericResponse.setStatus(200);
@@ -112,10 +108,9 @@ public class UsuariosServiceImpl implements UsuarioService {
 		return genericResponse;
 	}
 	
-	@SuppressWarnings("null")
 	@Override
 	public GenericResponse deleteUsuariosByEmail(String email) {
-		GenericResponse genericResponse = null;		
+		GenericResponse genericResponse = new GenericResponse();	
 		try{			
 			Usuarios usuario = usuariosRepository.findByEmail(email);
 			usuariosRepository.delete(usuario);

@@ -29,7 +29,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Usuarios implements Serializable{
-
 	private static final long serialVersionUID = 1L;
 	
 	@Id
@@ -40,21 +39,15 @@ public class Usuarios implements Serializable{
 	private UUID id;
 	
     @Column(name = "NOMBRE")
-    private String nombre;
-    
+    private String nombre;    
     @Column(name = "EMAIL")
-    private String email;
-    
+    private String email;    
     @Column(name = "CONTRASEÑA")
-    private String contraseña;
-        
+    private String contraseña;        
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Accesos.class, orphanRemoval = true)
     @Column(name = "ACCESOS")
-    private List<Accesos> accesos;
-    
+    private List<Accesos> accesos;    
     @OneToMany(cascade = CascadeType.ALL, targetEntity = Permisos.class, orphanRemoval = true)
     @Column(name = "PERMISOS")
     private List<Permisos> permisos;
-
-
 }

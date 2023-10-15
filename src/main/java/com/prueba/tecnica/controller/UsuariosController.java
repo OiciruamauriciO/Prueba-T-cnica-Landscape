@@ -10,19 +10,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.prueba.tecnica.domain.AuthUserDto;
 import com.prueba.tecnica.domain.UsuarioToUpdateDto;
 import com.prueba.tecnica.entity.Usuarios;
 import com.prueba.tecnica.response.FetchUsersResponse;
 import com.prueba.tecnica.response.GenericResponse;
 import com.prueba.tecnica.service.UsuarioService;
+import com.prueba.tecnica.utils.GetJwtToken;
 
 @RestController
 public class UsuariosController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+	@PostMapping("/auth")
+	public AuthUserDto login(@RequestParam String usuario, @RequestParam String contraseña) {
+		GetJwtToken getJwtToken = new GetJwtToken();
+		getJwtToken.setUsername(usuario);
+		return new AuthUserDto(usuario, contraseña, getJwtToken.getJWTToken());		
+	}
 	
     @PostMapping("/usuarios")    
     public ResponseEntity<GenericResponse> saveUsuarios(@Validated @RequestBody Usuarios usuarios){

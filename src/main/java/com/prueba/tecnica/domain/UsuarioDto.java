@@ -17,7 +17,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDto {
-
 	@JsonProperty(value = "id")
 	UUID id;
 	@JsonProperty(value = "nombre")
@@ -29,6 +28,5 @@ public class UsuarioDto {
 	@JsonProperty(value = "accesos")
 	List<AccesosDto> accesos;
 	@JsonProperty(value = "permiso")
-	List<PermisosDto> permisos;
-	
+	List<PermisosDto> permisos;	
 }
