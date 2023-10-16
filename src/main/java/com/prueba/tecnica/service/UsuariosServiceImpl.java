@@ -33,8 +33,6 @@ public class UsuariosServiceImpl implements UsuarioService {
 		GenericResponse genericResponse = new GenericResponse();		
 		try {
 			usuariosRepository.save(usuario);
-			genericResponse.setStatus(200);
-			genericResponse.setMessage("Usuario registrado exitosamente");
 		}catch(Exception e) {
 			e.printStackTrace();
 		}		
@@ -44,6 +42,7 @@ public class UsuariosServiceImpl implements UsuarioService {
 	@Override
 	public FetchUsersResponse fetchUsuariosList() {				
 		FetchUsersResponse fetchUsersResponse = new FetchUsersResponse();	
+		GenericResponse genericResponse = new GenericResponse();
 		List<Usuarios> usuariosLista = new ArrayList<Usuarios>(); 
 		List<UsuarioDto> usuariosDtoLista = new ArrayList<UsuarioDto>();		 
 		try {			
@@ -71,7 +70,7 @@ public class UsuariosServiceImpl implements UsuarioService {
 			    usuarioDto.setAccesos(listaAccesos);
 			    usuarioDto.setPermisos(listaPermisos);
 			    usuariosDtoLista.add(usuarioDto);			    
-			    fetchUsersResponse.setGenericResponse(new GenericResponse(200, "Usuarios listados correctamente"));
+			    fetchUsersResponse.setGenericResponse(genericResponse);
 			    fetchUsersResponse.setUsuarioDto(usuariosDtoLista);
 		    }			
 		}catch(Exception e) {
@@ -87,8 +86,6 @@ public class UsuariosServiceImpl implements UsuarioService {
 			usuariosRepository.updateByEmail(usuarioToUpdateDto.getNombre(), usuarioToUpdateDto.getEmail(), usuarioToUpdateDto.getContraseña(), email);		
 			accesosRepository.updateTimestamp(usuarioToUpdateDto.getTimestamp(), usuariosRepository.findByEmail(usuarioToUpdateDto.getEmail()).getAccesos().get(0).getIdUsuario());
 			permisosRepository.updatePermiso(usuarioToUpdateDto.getPermiso(), usuariosRepository.findByEmail(usuarioToUpdateDto.getEmail()).getAccesos().get(0).getIdUsuario());
-			genericResponse.setStatus(200);
-			genericResponse.setMessage("Usuario actualizado exitosamente");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}		
@@ -100,8 +97,6 @@ public class UsuariosServiceImpl implements UsuarioService {
 		GenericResponse genericResponse = new GenericResponse();
 		try {
 			usuariosRepository.deleteById(accesosIdUsuario);
-			genericResponse.setStatus(200);
-			genericResponse.setMessage("Usuario eliminado exitosamente");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}		
@@ -114,8 +109,6 @@ public class UsuariosServiceImpl implements UsuarioService {
 		try{			
 			Usuarios usuario = usuariosRepository.findByEmail(email);
 			usuariosRepository.delete(usuario);
-			genericResponse.setStatus(200);
-			genericResponse.setMessage("Usuario eliminado exitosamente");
 		} catch(Exception e) {
 			e.printStackTrace();
 		}		

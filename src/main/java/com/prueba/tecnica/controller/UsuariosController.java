@@ -1,6 +1,8 @@
 package com.prueba.tecnica.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,40 +37,60 @@ public class UsuariosController {
 	}
 	
     @PostMapping("/usuarios")    
-    public ResponseEntity<GenericResponse> saveUsuarios(@Validated @RequestBody Usuarios usuarios){
+    public ResponseEntity<GenericResponse> saveUsuarios(HttpServletResponse response, @Validated @RequestBody Usuarios usuarios) throws Exception {
     	GenericResponse genericResponse = usuarioService.saveUsuario(usuarios);
-    	if(genericResponse==null) {
+    	int statuscode = response.getStatus();    	
+    	if(statuscode==200) {
+    		genericResponse.setMessage("Usuario creado en base de datos correctamente.");
+    		genericResponse.setStatus(statuscode);
+    		return ResponseEntity.status(HttpStatus.OK).body(genericResponse);
+    	} else {
+    		genericResponse.setMessage("Problema detectado en el Servidor, favor intente más tarde.");
+    		genericResponse.setStatus(statuscode);
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(genericResponse);
-    	}else {
-    		return ResponseEntity.status(HttpStatus.CREATED).body(genericResponse);
-        }
+    	}
     }    
     @GetMapping("/usuarios") 
-    public ResponseEntity<FetchUsersResponse> fetchDepartmentList(){
+    public ResponseEntity<FetchUsersResponse> fetchDepartmentList(HttpServletResponse response) throws Exception {
     	FetchUsersResponse fetchUsersResponse = usuarioService.fetchUsuariosList();
-    	if(fetchUsersResponse==null) {
-    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(fetchUsersResponse);
-    	} else {
+    	int statuscode = response.getStatus();    	
+    	if(statuscode==200) {
+    		fetchUsersResponse.getGenericResponse().setMessage("Usuario listados correctamente");
+    		fetchUsersResponse.getGenericResponse().setStatus(statuscode);
     		return ResponseEntity.status(HttpStatus.OK).body(fetchUsersResponse);
-    	}    	
+    	} else {
+    		fetchUsersResponse.getGenericResponse().setMessage("Problema detectado en el Servidor, favor intente más tarde.");
+    		fetchUsersResponse.getGenericResponse().setStatus(statuscode);
+    		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(fetchUsersResponse);
+    	}
     } 
     @PutMapping("/usuarios/{email}") 
-    public ResponseEntity<GenericResponse> updateUsuarios(@RequestBody UsuarioToUpdateDto usuarioToUpdateDto, @PathVariable("email") String email){        
+    public ResponseEntity<GenericResponse> updateUsuarios(HttpServletResponse response, @RequestBody UsuarioToUpdateDto usuarioToUpdateDto, @PathVariable("email") String email) throws Exception {        
     	GenericResponse genericResponse = usuarioService.updateUsuarios(usuarioToUpdateDto, email);
-    	if(genericResponse==null) {
+    	int statuscode = response.getStatus();    	
+    	if(statuscode==200) {
+    		genericResponse.setMessage("Usuario actualizado correctamente.");
+    		genericResponse.setStatus(statuscode);
+    		return ResponseEntity.status(HttpStatus.OK).body(genericResponse);
+    	} else {
+    		genericResponse.setMessage("Problema detectado en el Servidor, favor intente más tarde.");
+    		genericResponse.setStatus(statuscode);
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(genericResponse);
-    	}else {
-    		return ResponseEntity.status(HttpStatus.CREATED).body(genericResponse);
-        }
+    	}
     }    
     @DeleteMapping("/usuarios/{email}") 
-    public ResponseEntity<GenericResponse> deleteUsuariosByEmail(@PathVariable("email") String email){    	
+    public ResponseEntity<GenericResponse> deleteUsuariosByEmail(HttpServletResponse response, @PathVariable("email") String email) throws Exception {    	
     	GenericResponse genericResponse = usuarioService.deleteUsuariosByEmail(email);
-    	if(genericResponse==null) {
+    	int statuscode = response.getStatus();    	
+    	if(statuscode==200) {
+    		genericResponse.setMessage("Usuario eliminado de la base de datos correctamente.");
+    		genericResponse.setStatus(statuscode);
+    		return ResponseEntity.status(HttpStatus.OK).body(genericResponse);
+    	} else {
+    		genericResponse.setMessage("Problema detectado en el Servidor, favor intente más tarde.");
+    		genericResponse.setStatus(statuscode);
     		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(genericResponse);
-    	}else {
-    		return ResponseEntity.status(HttpStatus.CREATED).body(genericResponse);
-        }
+    	}
     }
 
 }
