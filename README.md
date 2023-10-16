@@ -8,6 +8,13 @@ docker run -p 8080:8084 spring-boot-docker
 
 *Nota: reemplazar en los verbos, el puerto 8084, por el puerto 8080
 
+# SWAGGER
+
+http://localhost:8084/v2/api-docs
+http://localhost:8084/swagger-ui.html#/
+
+*Nota: reemplazar, el puerto 8084, por el puerto 8080, si se levanta docker primero para correr la aplicación
+
 # POSTMAN COLLECTION
 
 {
