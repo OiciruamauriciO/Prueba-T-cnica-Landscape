@@ -15,6 +15,41 @@ http://localhost:8084/swagger-ui.html#/
 
 *Nota: reemplazar, el puerto 8084, por el puerto 8080, si se levanta docker primero para correr la aplicación
 
+# SONARQUBE Ref.: https://docs.sonarsource.com/sonarqube/10.2/analyzing-source-code/scanners/sonarscanner-for-maven/ 
+
+Importante: descargar Sonarqube (https://www.sonarsource.com/products/sonarqube/downloads/, Comunnity Edition es suficiente para levantarlo), levantarlo localmente con Java11 (otras versiones pueden presentar conflictos, especialmente con ElasticSearch), crear proyecto y definir un token asociado al proyecto (seguir flujos de pasos de la interfaz). Luego debe configurarse un setting.xml, si está incorporado Maven a nivel de proyecto y no se está usando el .m2 de Apache Maven de la unidad de disco local (C: por ejemplo), el setting.xml puede ir en la carpeta resources del proyecto mismo. 
+
+Settings.xml
+
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+    <pluginGroups>
+        <pluginGroup>org.sonarsource.scanner.maven</pluginGroup>
+    </pluginGroups>
+    <profiles>
+        <profile>
+            <id>sonar</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <!-- Optional URL to server. Default value is http://localhost:9000 -->
+                <sonar.host.url>
+                  http://localhost:9000
+                </sonar.host.url>
+            </properties>
+        </profile>
+     </profiles>
+</settings>
+
+Luego implementar el comando por consola (o si se usa Eclipse o STS, sin el prefijo mvn, en el caso de configurar un build de Maven)
+
+mvn clean verify sonar:sonar -Dsonar.projectKey=PROJECTKEY -Dsonar.projectName='PROJECTNAME' -Dsonar.host.url=http://HOST:9000 -Dsonar.token=TOKEN
+
+*Nota: Sonarqube con Maven a nivel de proyecto
+
 # POSTMAN COLLECTION
 
 {
